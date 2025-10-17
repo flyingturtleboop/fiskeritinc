@@ -1,0 +1,484 @@
+// src/Components/Pages/HomePage.tsx
+
+import React, { useState, useEffect, useRef } from 'react';
+import { ChevronLeft, ChevronRight, Menu, X } from 'lucide-react';
+
+const HomePage: React.FC = () => {
+  // ===== Hero Slides =====
+  const heroSlides = [
+    {
+      image:
+        'https://via.placeholder.com/1600x900/FF6B35/FFFFFF?text=Welcome+to+Fisker+IT',
+      title: 'Welcome to Fisker IT',
+      subtitle: 'Your Trusted Partner for Cutting-Edge IT Solutions',
+    },
+    {
+      image:
+        'https://via.placeholder.com/1600x900/FF8C42/FFFFFF?text=Innovation+First',
+      title: 'Innovation First',
+      subtitle: 'Driving Growth with Next-Gen Technology',
+    },
+    {
+      image:
+        'https://via.placeholder.com/1600x900/FFA726/FFFFFF?text=Your+Success,+Our+Mission',
+      title: 'Your Success, Our Mission',
+      subtitle: 'Delivering Exceptional Results Every Time',
+    },
+  ];
+  const [heroIndex, setHeroIndex] = useState(0);
+  const heroCount = heroSlides.length;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHeroIndex((prev) => (prev === heroCount - 1 ? 0 : prev + 1));
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [heroCount]);
+
+  const goToPrevHero = () =>
+    setHeroIndex((prev) => (prev === 0 ? heroCount - 1 : prev - 1));
+  const goToNextHero = () =>
+    setHeroIndex((prev) => (prev === heroCount - 1 ? 0 : prev + 1));
+  const goToHeroSlide = (idx: number) => setHeroIndex(idx);
+
+  // ===== Scrolling Services Carousel =====
+  const services = [
+    { icon: '☁️', title: 'Cloud Infrastructure' },
+    { icon: '🛡️', title: 'Cybersecurity' },
+    { icon: '📋', title: 'IT Consulting' },
+    { icon: '⚙️', title: 'DevOps' },
+    { icon: '📊', title: 'Data Analytics' },
+    { icon: '🔧', title: 'Managed Support' },
+    { icon: '💻', title: 'App Development' },
+    { icon: '🌐', title: 'Network Design' },
+  ];
+  const VISIBLE_COUNT = 4;
+  const MAX_INDEX = services.length - VISIBLE_COUNT;
+  const [svcIndex, setSvcIndex] = useState(0);
+  const autoSlideRef = useRef<number | null>(null);
+
+  const slideNextServices = () =>
+    setSvcIndex((prev) => (prev === MAX_INDEX ? 0 : prev + 1));
+  const slidePrevServices = () =>
+    setSvcIndex((prev) => (prev === 0 ? MAX_INDEX : prev - 1));
+
+  useEffect(() => {
+    autoSlideRef.current = window.setInterval(() => {
+      slideNextServices();
+    }, 3000);
+    return () => {
+      if (autoSlideRef.current !== null) {
+        clearInterval(autoSlideRef.current);
+      }
+    };
+  }, []);
+
+  const pauseServices = () => {
+    if (autoSlideRef.current !== null) {
+      clearInterval(autoSlideRef.current);
+    }
+  };
+  const resumeServices = () => {
+    autoSlideRef.current = window.setInterval(() => {
+      slideNextServices();
+    }, 3000);
+  };
+
+  // ===== Page Styles (centered) =====
+  const pageStyle: React.CSSProperties = {
+    minHeight: '100vh',
+    background: '#F8F9FA',
+    padding: '40px 20px',
+    fontFamily:
+      "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    boxSizing: 'border-box',
+  };
+
+  // Header/Nav Styles
+  const headerStyle: React.CSSProperties = {
+    maxWidth: '1200px',
+    margin: '0 auto',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '0 20px',
+    height: '80px',
+    background: '#FFFFFF',
+    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+    borderRadius: '12px',
+  };
+  const logoStyle: React.CSSProperties = {
+    fontSize: '1.5rem',
+    fontWeight: 700,
+    color: '#FF7F5C',
+    cursor: 'pointer',
+  };
+  const navLinksStyle: React.CSSProperties = {
+    display: 'flex',
+    gap: '24px',
+  };
+  const navButtonStyle: React.CSSProperties = {
+    padding: '8px 16px',
+    borderRadius: '9999px',
+    background: '#FF7F5C',
+    color: 'white',
+    border: 'none',
+    cursor: 'pointer',
+    fontWeight: 500,
+  };
+
+  // Hero Section Styles
+  const heroWrapperStyle: React.CSSProperties = {
+    width: '100%',
+    overflow: 'hidden',
+    borderRadius: '12px',
+    marginTop: '20px',
+  };
+  const heroInnerStyle: React.CSSProperties = {
+    position: 'relative',
+    width: '100%',
+    height: '400px',
+    borderRadius: '12px',
+    overflow: 'hidden',
+    background: '#000',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  };
+  const heroImageStyle: React.CSSProperties = {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    transition: 'opacity 0.7s ease',
+  };
+  const heroOverlayStyle: React.CSSProperties = {
+    position: 'absolute',
+    inset: 0,
+    background: 'rgba(0,0,0,0.4)',
+  };
+  const heroTextContainer: React.CSSProperties = {
+    position: 'relative',
+    zIndex: 10,
+    textAlign: 'center',
+    color: '#FFFFFF',
+    padding: '0 20px',
+  };
+  const heroTitleStyle: React.CSSProperties = {
+    fontSize: '2rem',
+    fontWeight: 700,
+    marginBottom: '8px',
+  };
+  const heroSubtitleStyle: React.CSSProperties = {
+    fontSize: '1.125rem',
+    color: '#FFB38D',
+  };
+  const heroArrowStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    background: 'rgba(0,0,0,0.5)',
+    border: 'none',
+    color: 'white',
+    width: '36px',
+    height: '36px',
+    borderRadius: '50%',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 20,
+  };
+
+  // Services Carousel Styles (end-to-end width)
+  const svcCarouselContainer: React.CSSProperties = {
+    width: '100%',
+    overflow: 'hidden',
+    marginTop: '40px',
+    position: 'relative',
+  };
+  const svcInnerWrapper: React.CSSProperties = {
+    display: 'flex',
+    transition: 'transform 0.5s ease',
+    transform: `translateX(-${(100 / VISIBLE_COUNT) * svcIndex}%)`,
+    width: `${(services.length / VISIBLE_COUNT) * 100}%`,
+  };
+  const svcCardWrapper: React.CSSProperties = {
+    flex: `0 0 ${100 / VISIBLE_COUNT}%`,
+    padding: '20px',
+    boxSizing: 'border-box',
+  };
+  const svcCardStyle: React.CSSProperties = {
+    background: '#FF7F5C',
+    borderRadius: '12px',
+    color: 'white',
+    padding: '24px',
+    minHeight: '140px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+  };
+  const svcIconStyle: React.CSSProperties = {
+    fontSize: '1.75rem',
+    marginBottom: '8px',
+  };
+  const svcArrowStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    background: 'rgba(0, 0, 0, 0.5)',
+    border: 'none',
+    color: 'white',
+    width: '32px',
+    height: '32px',
+    borderRadius: '50%',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 10,
+  };
+  const svcLeftArrow: React.CSSProperties = {
+    ...svcArrowStyle,
+    left: '10px',
+  };
+  const svcRightArrow: React.CSSProperties = {
+    ...svcArrowStyle,
+    right: '10px',
+  };
+
+  return (
+    <div style={pageStyle}>
+      {/* ===== Header / Navigation ===== */}
+      <header style={headerStyle}>
+        <div style={logoStyle} onClick={() => { /* navigate to home if needed */ }}>
+          FISKER IT
+        </div>
+        <nav style={navLinksStyle}>
+          {['Home', 'Services', 'About', 'Contact'].map((label) => (
+            <a
+              key={label}
+              href={`#${label.toLowerCase()}`}
+              style={{ color: '#4B5563', textDecoration: 'none', fontWeight: 500 }}
+            >
+              {label}
+            </a>
+          ))}
+          <button style={navButtonStyle}>Apply Now</button>
+        </nav>
+      </header>
+
+      {/* ===== Hero Slideshow ===== */}
+      <div style={heroWrapperStyle}>
+        <div style={heroInnerStyle}>
+          {heroSlides.map((slide, idx) => (
+            <img
+              key={idx}
+              src={slide.image}
+              alt={slide.title}
+              style={{
+                ...heroImageStyle,
+                opacity: idx === heroIndex ? 1 : 0,
+              }}
+            />
+          ))}
+          <div style={heroOverlayStyle} />
+
+          <div style={heroTextContainer}>
+            <h1 style={heroTitleStyle}>{heroSlides[heroIndex].title}</h1>
+            <p style={heroSubtitleStyle}>
+              {heroSlides[heroIndex].subtitle}
+            </p>
+          </div>
+
+          <button
+            onClick={goToPrevHero}
+            style={{ ...heroArrowStyle, left: '10px' }}
+            aria-label="Previous Slide"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <button
+            onClick={goToNextHero}
+            style={{ ...heroArrowStyle, right: '10px' }}
+            aria-label="Next Slide"
+          >
+            <ChevronRight size={20} />
+          </button>
+
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '12px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              display: 'flex',
+              gap: '8px',
+              zIndex: 20,
+            }}
+          >
+            {heroSlides.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => goToHeroSlide(idx)}
+                style={{
+                  width: '10px',
+                  height: '10px',
+                  borderRadius: '50%',
+                  border: 'none',
+                  background:
+                    idx === heroIndex ? '#FF7F5C' : 'rgba(255, 255, 255, 0.6)',
+                  cursor: 'pointer',
+                  transition: 'background 0.3s',
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ===== Scrolling Services Carousel (end-to-end) ===== */}
+      <div
+        style={svcCarouselContainer}
+        onMouseEnter={pauseServices}
+        onMouseLeave={resumeServices}
+      >
+        <button
+          onClick={slidePrevServices}
+          style={svcLeftArrow}
+          aria-label="Slide Services Left"
+        >
+          <ChevronLeft size={16} />
+        </button>
+        <button
+          onClick={slideNextServices}
+          style={svcRightArrow}
+          aria-label="Slide Services Right"
+        >
+          <ChevronRight size={16} />
+        </button>
+
+        <div style={svcInnerWrapper}>
+          {services.map((svc, idx) => (
+            <div key={idx} style={svcCardWrapper}>
+              <div style={svcCardStyle}>
+                <div style={svcIconStyle}>{svc.icon}</div>
+                <div style={{ fontWeight: 600, fontSize: '1rem' }}>
+                  {svc.title}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default HomePage;
+
+
+
+
+// src/Components/Pages/ScrollingServices.tsx
+
+import React from 'react';
+
+const ScrollingServices: React.FC = () => {
+  // Eight service items (icons + titles as examples)
+  const services = [
+    { icon: '☁️', title: 'Cloud Infra' },
+    { icon: '🛡️', title: 'Cybersecurity' },
+    { icon: '📋', title: 'IT Consulting' },
+    { icon: '⚙️', title: 'DevOps' },
+    { icon: '📊', title: 'Data Analytics' },
+    { icon: '🔧', title: 'Managed Support' },
+    { icon: '💻', title: 'App Development' },
+    { icon: '🌐', title: 'Network Design' },
+  ];
+
+  // Styles that center the marquee section on the page
+  const pageStyle: React.CSSProperties = {
+    minHeight: '100vh',
+    background: '#F8F9FA',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '20px',
+    boxSizing: 'border-box',
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+  };
+
+  // Container for the scrolling row; hides overflow
+  const marqueeContainerStyle: React.CSSProperties = {
+    width: '100%',
+    maxWidth: '1200px',
+    overflow: 'hidden',
+    borderRadius: '12px',
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+    background: '#FFFFFF',
+  };
+
+  // Inner flex that will be animated
+  const marqueeContentStyle: React.CSSProperties = {
+    display: 'flex',
+    // Duplicate items back-to-back for seamless loop
+    animation: 'scrollLeft 20s linear infinite',
+  };
+
+  // Style for each card in the row
+  const cardStyle: React.CSSProperties = {
+    flex: '0 0 auto',
+    width: '200px',
+    height: '120px',
+    margin: '10px',
+    background: '#FF7F5C',
+    borderRadius: '12px',
+    color: 'white',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '1rem',
+    fontWeight: 500,
+    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+  };
+
+  const iconStyle: React.CSSProperties = {
+    fontSize: '2rem',
+    marginBottom: '8px',
+  };
+
+  return (
+    <div style={pageStyle}>
+      {/* Inject keyframes for scrolling animation */}
+      <style>
+        {`
+          @keyframes scrollLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+        `}
+      </style>
+
+      <div style={marqueeContainerStyle}>
+        <div style={marqueeContentStyle}>
+          {/*
+            Render services twice in a row so that when the first set scrolls out,
+            the second set is already in view, creating a seamless loop.
+          */}
+          {[...services, ...services].map((svc, idx) => (
+            <div key={idx} style={cardStyle}>
+              <div style={iconStyle}>{svc.icon}</div>
+              <div>{svc.title}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ScrollingServices;
