@@ -51,6 +51,18 @@ const HomePage = () => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // ------------- CHANGE: helper used by "Apply Now" buttons -------------
+  const goToContact = () => {
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    // Fallback to navigate to dedicated contact page route
+    window.location.href = '/contact';
+  };
+  // ----------------------------------------------------------------------
+
   const stats = [
     { label: "Active Contractors", val: "20+" },
     { label: "Projects Delivered", val: "6" },
@@ -514,8 +526,9 @@ const HomePage = () => {
                   }}>
                     {job.salary}
                   </div>
+                  {/* ------------- CHANGE: Apply button now routes to Contact ------------- */}
                   <button
-                    onClick={() => scrollTo("contact")}
+                    onClick={() => (window.location.href = '/ContactPage.tsx')}
                     style={{
                       width: '100%',
                       padding: '0.75rem 1.25rem',
@@ -535,6 +548,7 @@ const HomePage = () => {
                     Apply Now
                     <span>→</span>
                   </button>
+                  {/* --------------------------------------------------------------------- */}
                 </div>
               </div>
             ))}
