@@ -11,7 +11,7 @@ export default defineConfig({
   ],
   base: '/',
   build: {
-    outDir: 'docs',             // <— this makes Vite emit to /docs
-    assetsDir: 'assets'
+    outDir: '../docs',             // <— this makes Vite emit to /docs
+    emptyOutDir: true
   }
 })
