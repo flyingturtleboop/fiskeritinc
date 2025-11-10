@@ -12,7 +12,11 @@ import OurStoryPage from './Components/Pages/About/OurStoryPage';
 
 
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<string>('home');
+  // Initialize from localStorage or default to 'home'
+  const [currentPage, setCurrentPage] = useState<string>(() => {
+    const savedPage = localStorage.getItem('currentPage');
+    return savedPage || 'home';
+  });
 
   // Listen for navigation events from child components
   React.useEffect(() => {
@@ -27,8 +31,9 @@ const App: React.FC = () => {
     return () => window.removeEventListener('navigate', handleNavigate);
   }, []);
 
-  // Scroll to top when page changes
+  // Save current page to localStorage and scroll to top when page changes
   React.useEffect(() => {
+    localStorage.setItem('currentPage', currentPage);
     window.scrollTo(0, 0);
   }, [currentPage]);
 
@@ -53,7 +58,7 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-blue-100" style={{ display: 'flex', flexDirection: 'column' }}>
       <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
       <div className="w-full" style={{ flex: 1 }}>{renderPage()}</div>
-      <Footer />
+      <Footer variant={currentPage === 'services' ? 'services' : 'default'} />
     </div>
   );
 };
