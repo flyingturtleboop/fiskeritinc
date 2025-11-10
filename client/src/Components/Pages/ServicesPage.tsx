@@ -188,9 +188,9 @@ const ServicesPage = () => {
     // nothing required here now; CSS handles reduced motion
   }, []);
 
-  const goToContact = () => {
-    // Dispatch custom event to navigate to contact page
-    window.dispatchEvent(new CustomEvent('navigate', { detail: 'contact' }));
+  const goToRecruitment = () => {
+    // Dispatch custom event to navigate to recruitment page
+    window.dispatchEvent(new CustomEvent('navigate', { detail: 'recruitment' }));
   };
 
   const handleCardEnter = (id: string) => {
@@ -603,7 +603,7 @@ const ServicesPage = () => {
               const el = e.currentTarget as HTMLButtonElement;
               el.style.transform = 'translateY(0)';
             }}
-            onClick={goToContact}
+            onClick={goToRecruitment}
           >
             Get Started Today
           </button>

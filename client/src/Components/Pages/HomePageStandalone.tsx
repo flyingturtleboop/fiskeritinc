@@ -51,9 +51,9 @@ const HomePage = () => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const goToContact = () => {
-    // Dispatch custom event to navigate to contact page
-    window.dispatchEvent(new CustomEvent('navigate', { detail: 'contact' }));
+  const goToRecruitment = () => {
+    // Dispatch custom event to navigate to recruitment page
+    window.dispatchEvent(new CustomEvent('navigate', { detail: 'recruitment' }));
   };
 
   const stats = [
@@ -520,7 +520,7 @@ const HomePage = () => {
                     {job.salary}
                   </div>
                   <button
-                    onClick={goToContact}
+                    onClick={goToRecruitment}
                     style={{
                       width: '100%',
                       padding: '0.75rem 1.25rem',

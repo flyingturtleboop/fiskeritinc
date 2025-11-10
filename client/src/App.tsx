@@ -1,6 +1,7 @@
 // src/App.tsx
 import React, { useState } from 'react';
 import Navigation from './Components/Navigation';
+import Footer from './Components/Footer';
 
 // Pages
 import HomePage from './Components/Pages/HomePageStandalone';
@@ -26,6 +27,11 @@ const App: React.FC = () => {
     return () => window.removeEventListener('navigate', handleNavigate);
   }, []);
 
+  // Scroll to top when page changes
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
@@ -44,11 +50,10 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-blue-100">
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-blue-100" style={{ display: 'flex', flexDirection: 'column' }}>
       <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
-      <div className="w-full">{renderPage()}</div>
-
-      
+      <div className="w-full" style={{ flex: 1 }}>{renderPage()}</div>
+      <Footer />
     </div>
   );
 };
