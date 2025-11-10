@@ -51,17 +51,10 @@ const HomePage = () => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // ------------- CHANGE: helper used by "Apply Now" buttons -------------
   const goToContact = () => {
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
-      return;
-    }
-    // Fallback to navigate to dedicated contact page route
-    window.location.href = '/contact';
+    // Dispatch custom event to navigate to contact page
+    window.dispatchEvent(new CustomEvent('navigate', { detail: 'contact' }));
   };
-  // ----------------------------------------------------------------------
 
   const stats = [
     { label: "Active Contractors", val: "20+" },
@@ -526,9 +519,8 @@ const HomePage = () => {
                   }}>
                     {job.salary}
                   </div>
-                  {/* ------------- CHANGE: Apply button now routes to Contact ------------- */}
                   <button
-                    onClick={() => (window.location.href = '/ContactPage.tsx')}
+                    onClick={goToContact}
                     style={{
                       width: '100%',
                       padding: '0.75rem 1.25rem',
@@ -542,13 +534,21 @@ const HomePage = () => {
                       alignItems: 'center',
                       justifyContent: 'center',
                       gap: '0.5rem',
-                      fontSize: '1rem'
+                      fontSize: '1rem',
+                      transition: 'all 0.3s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = 'none';
                     }}
                   >
                     Apply Now
                     <span>→</span>
                   </button>
-                  {/* --------------------------------------------------------------------- */}
                 </div>
               </div>
             ))}

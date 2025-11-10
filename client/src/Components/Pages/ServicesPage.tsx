@@ -188,6 +188,11 @@ const ServicesPage = () => {
     // nothing required here now; CSS handles reduced motion
   }, []);
 
+  const goToContact = () => {
+    // Dispatch custom event to navigate to contact page
+    window.dispatchEvent(new CustomEvent('navigate', { detail: 'contact' }));
+  };
+
   const handleCardEnter = (id: string) => {
     if (isTouch) return;
     setHoveredCard(id);
@@ -598,11 +603,7 @@ const ServicesPage = () => {
               const el = e.currentTarget as HTMLButtonElement;
               el.style.transform = 'translateY(0)';
             }}
-            onClick={() => {
-              if (typeof window !== 'undefined' && window.location) {
-                window.location.href = '/contact';
-              }
-            }}
+            onClick={goToContact}
           >
             Get Started Today
           </button>

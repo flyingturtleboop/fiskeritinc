@@ -13,6 +13,19 @@ import OurStoryPage from './Components/Pages/About/OurStoryPage';
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<string>('home');
 
+  // Listen for navigation events from child components
+  React.useEffect(() => {
+    const handleNavigate = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      if (customEvent.detail) {
+        setCurrentPage(customEvent.detail);
+      }
+    };
+
+    window.addEventListener('navigate', handleNavigate);
+    return () => window.removeEventListener('navigate', handleNavigate);
+  }, []);
+
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
